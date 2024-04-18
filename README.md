@@ -1,3 +1,3 @@
 # docker_compose
 
-## Titre depuis mon éditeur
+## Apprentiqqage de la notion Docker Compose
