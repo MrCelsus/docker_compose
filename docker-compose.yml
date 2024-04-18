@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  #Création d'un service BDD sous MariaDB
+  mariadb:
+    image: mariadb
+    container_name: ghost_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ghost
+      MYSQL_DATABASE: ghost
+      MYSQL_USER: ghost
+      MYSQL_PASSWORD: ghost
+    networks:
+      - net_backend
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  #Création d'un service blog sous Ghost
+  ghost:
+    depends_on:
+      - ghost_db
+    image: ghost:latest
+    container_name: ghost
+    restart: always
+    environment:
+      GHOST_DB_HOSTANAME: ghost_db:3306
+      GHOST_DB_USER: ghost
+      GHOST_DB_PASSWORD: ghost
+      GHOST_DB_NAME: ghost
+    networks:
+      - net_backend
+      - net_frontend
+    ports:
+      - "3000:2368"
+    volumes:
+      - ghost_db:/var/www/html
+
+networks:
+  net_frontend:
+  net_backend:
+volumes:
+  mariadb_data:
+  ghost_data:
