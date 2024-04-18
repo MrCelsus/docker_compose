@@ -7,12 +7,12 @@ services:
     container_name: ghost_db
     restart: always
     environment:
+      MYSQL_DATABASE: ghost_db
       MYSQL_ROOT_PASSWORD: lucas
-      MYSQL_DATABASE: lucas
       MYSQL_USER: lucas
       MYSQL_PASSWORD: lucas
     networks:
-      - net_backend
+      - backend
     volumes:
       - mariadb_data:/var/lib/mysql
 
@@ -24,22 +24,23 @@ services:
     container_name: ghost
     restart: always
     environment:
-      #DATABASE_CLIENT: mariadb
-      GHOST_DB_HOST: ghost_db:3306
-      GHOST_DB_USER: lucas
-      GHOST_DB_PASSWORD: lucas
-      GHOST_DB_NAME: lucas
+      database__client: mysql
+      database__connection__host: ghost_db
+      database__connection__database: ghost_db
+      database__connection__user: lucas
+      database__connection__password: lucas
+      url: http://localhost:8080
     networks:
-      - net_backend
-      - net_frontend
+      - frontend
+      - backend
     ports:
       - "8080:2368"
     volumes:
       - ghost_data:/var/lib/ghost/content
 
 networks:
-  net_frontend:
-  net_backend:
+  frontend:
+  backend:
 volumes:
   mariadb_data:
   ghost_data:
