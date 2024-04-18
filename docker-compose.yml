@@ -7,10 +7,10 @@ services:
     container_name: ghost_db
     restart: always
     environment:
-      MYSQL_DATABASE: ghost_db
-      MYSQL_ROOT_PASSWORD: lucas
-      MYSQL_USER: lucas
-      MYSQL_PASSWORD: lucas
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       - backend
     volumes:
@@ -26,9 +26,9 @@ services:
     environment:
       database__client: mysql
       database__connection__host: ghost_db
-      database__connection__database: ghost_db
-      database__connection__user: lucas
-      database__connection__password: lucas
+      database__connection__database: ${MYSQL_DATABASE}
+      database__connection__user: ${MYSQL_USER}
+      database__connection__password: ${MYSQL_PASSWORD}
       url: http://localhost:8080
     networks:
       - frontend
